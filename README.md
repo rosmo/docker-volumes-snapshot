@@ -1,8 +1,11 @@
-# Docker volume nfs mounter
+# Docker volume LVM snapshot mounter
 
-An example of the [Docker volume extension api](https://github.com/calavera/docker-volume-api)
+Docker volume extension that creates a snapshot of an existing Logical Volume, mounts it,
+exposes it to the container. Discards snapshotted volumes after container is stopped.
 
-Docker volume extension that NFS mounts a remote FS into your container
+## Requirements
+
+Docker 1.8.3 with the patch from: https://patch-diff.githubusercontent.com/raw/docker/docker/pull/14737.patch
 
 ## Usage
 
@@ -11,11 +14,10 @@ Docker volume extension that NFS mounts a remote FS into your container
 `make containerrun` to run the volume plugin in a container, listening to the socket in the default
 `/run/docker/plugins/` dir.
 
-To use the plugin when mounting an NFS export `nfs://127.0.0.1:/data`, run:
+To use the plugin to create a snapshot of /dev/volume_group/logical_volume and mount
+it to a container, run:
 
-`docker run --rm -it --volume-driver=nfs -v 127.0.0.1/data:/no busybox ls -la`
-
-> Note: because of the way docker parses colons, you need to omit them from the NFS share.
+`docker run --rm -it --volume-driver=snapshot -v volume_group/logical_volume:/mnt busybox ls -la`
 
 ## Build and run in Boot2Docker qemu VM
 
