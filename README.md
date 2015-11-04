@@ -3,6 +3,11 @@
 Docker volume extension that creates a snapshot of an existing Logical Volume, mounts it,
 exposes it to the container. Discards snapshotted volumes after container is stopped.
 
+Useful for eg. providing pre-seeded MySQL databases to containers for testing purposes.
+
+Please note that XFS filesystems do not like to be mounted simultaneously on the same
+system: http://www.miljan.org/main/2009/11/16/lvm-snapshots-and-xfs/
+
 ## Requirements
 
 Docker 1.8.3 with the patch from: https://patch-diff.githubusercontent.com/raw/docker/docker/pull/14737.patch
@@ -21,7 +26,7 @@ it to a container, run:
 
 ## Build and run in Boot2Docker qemu VM
 
-`make iso` will build an experimental boot2docker ISO which will auto-start the nfs volume-plugin.
+`make iso` will build an experimental boot2docker ISO which will auto-start the snapshot volume-plugin.
 
 If you're on Linux, you can run it in Qemu-kvm using `make run`.
 
